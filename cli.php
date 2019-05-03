@@ -10,19 +10,26 @@ function make_me_a_controller(array $args, string $file_content):void{
 	if(isset($args[1])){
 		echo $args[1].PHP_EOL;
 		echo $file_content;
+		$file = fopen("./$args[1].php","w");
+		if($file){
+			fwrite($file,$file_content);
+			fclose($file);
+			echo "file created";
+		}
+		else
+			echo "Opening file failed.";
 	}else
 		echo "Dude I need a name for the file";
 }
 $text = <<<HTML
 <?php
 	include "ejemplo/controllers.php";
-
 	//set your custom function here :D
+
 	class /NAME/ extends Controller{
 		function main():void{}
 		function failure():string{}
 	}
 ?>
 HTML;
-
 make_me_a_controller($argv,$text);
